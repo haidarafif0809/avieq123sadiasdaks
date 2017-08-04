@@ -210,8 +210,8 @@ include 'sanitasi.php';
 
 
 <!--tampilan modal-->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+<div id="myModal" class="modal" role="dialog">
+  <div class="modal-dialog">
 
     <!-- isi modal-->
     <div class="modal-content">
@@ -222,7 +222,8 @@ include 'sanitasi.php';
       </div>
       <div class="modal-body">
 
-      <div class="table-resposive">
+      <div class="table-responsive">
+      <center>
 <span class="modal_baru">
       <!-- membuat agar ada garis pada tabel, disetiap kolom-->
       <table id="tabel_cari" class="table table-bordered table-sm">
@@ -241,6 +242,7 @@ include 'sanitasi.php';
           </thead> <!-- tag penutup tabel -->
         </table> <!-- tag penutup table-->
   </span>
+  </center>
 </div>
 </div> <!-- tag penutup modal-body-->
       <div class="modal-footer">
@@ -1040,6 +1042,24 @@ console.log(ber_stok);
     var subtotal_penjualan = parseInt(total,10) + parseInt(subtotal,10);
     total =  subtotal_penjualan;
 
+    var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+    if(pembayaran == ''){
+        pembayaran = 0;
+    }
+    var sisa = pembayaran - subtotal_penjualan;
+    var sisa_kredit = subtotal_penjualan - pembayaran;
+        
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      }  
+
     $("#total2").val(tandaPemisahTitik(subtotal_penjualan));
 
 
@@ -1086,7 +1106,7 @@ console.log(ber_stok);
 
             
              } // end diskon bertingkat
-     
+
 
   if (jumlah_barang == ''){
   alert("Jumlah Barang Harus Diisi");
@@ -1926,12 +1946,32 @@ $(document).on('click','.btn-hapus-tbs',function(e){
             
         }//end diskon bertingkat
 
+        var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+        if(pembayaran == ''){
+        pembayaran = 0;
+        }
+        var sisa = pembayaran - total;
+        var sisa_kredit = total - pembayaran;
+
+
     var konfirmasi_hapus = confirm("Apakah Anda yakin ingin Menghapus "+nama_barang);
 
       if (konfirmasi_hapus == true) {
       $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(potongan_nominal)));
       $("#total1").val(tandaPemisahTitik(total_akhir));
       $("#total2").val(tandaPemisahTitik(total));
+
+
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      }
 
     $.post("hapus_edit_tbs_penjualan.php",{id:id,kode_barang:kode_barang},function(data){
     if (data == 'sukses') {
@@ -2149,6 +2189,25 @@ $(function() {
                                   // subtotal penjualan baru
                            subtotal_penjualan= subtotal_penjualan - subtotal_lama + subtotal;
                            var total = subtotal_penjualan;
+
+                           var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+                            if(pembayaran == ''){
+                                pembayaran = 0;
+                            }
+                            var sisa = pembayaran - subtotal_penjualan;
+                            var sisa_kredit = subtotal_penjualan - pembayaran;
+                                
+                              if (sisa < 0  ){
+                                $("#kredit").val(sisa_kredit);
+                                $("#sisa_pembayaran_penjualan").val('0');
+                                $("#tanggal_jt").attr("disabled", false);
+                              }
+                              else{
+                                $("#sisa_pembayaran_penjualan").val(sisa);
+                                $("#kredit").val('0');
+                                $("#tanggal_jt").attr("disabled", true);
+                              }  
+
                           //perhitungan diskon bertingkat 
                    if (status_bertingkat > 0) {
                               var diskon_bertingkat = potongan_persen.split("+");
