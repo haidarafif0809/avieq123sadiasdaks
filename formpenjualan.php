@@ -88,8 +88,9 @@ nama_pelanggan FROM pelanggan");
     
     ?>
     </select><br>
- 
-  
+    <br>
+<label>Sisa Plafon </label>
+    <input type="text" name="sisa_plafon"  id="sisa_plafon" class="form-control">
 </div>
       <input type="hidden" name="sisa_plafon"  id="sisa_plafon" class="form-control">
 
@@ -137,23 +138,38 @@ nama_gudang FROM gudang");
     </select>
     </div>
 
- 
-<!-- Sales Dan Flafon di haden -->
-<div class="col-sm-2">
-    <label class="gg">Sales</label>
-      <select type="hidden" style="font-size:15px; height:35px" name="sales" id="sales" class="form-control gg">
-        <?php 
-            $query = $db->query("SELECT id, nama  FROM user WHERE otoritas = 'sales' ");
-            while($data = mysqli_fetch_array($query)){
-          
-            echo "<option value='".$data['nama']."'>".$data['nama'] ."</option>";
 
-            }
-                      
-        ?>
-    </select>
+
+<div class="col-sm-2">
+<label class="gg" >Sales</label>
+<select style="font-size:15px; height:35px" name="sales" id="sales" class="form-control gg" required="">
+
+  <?php 
+    
+    //untuk menampilkan semua data pada tabel pelanggan dalam DB
+    $query01 = $db->query("SELECT nama,default_sales FROM user WHERE status_sales = 'Iya'");
+
+    //untuk menyimpan data sementara yang ada pada $query
+    while($data01 = mysqli_fetch_array($query01))
+    {
+    
+    if ($data01['default_sales'] == '1') {
+
+    echo "<option selected value='".$data01['nama'] ."'>".$data01['nama'] ."</option>";
+      
+    }
+    else{
+
+    echo "<option value='".$data01['nama'] ."'>".$data01['nama'] ."</option>";
+
+    }
+    }
+    
+    
+    ?>
+
+</select>
 </div>
-<!-- /Sales Dan Flafon di haden -->
 
 <div class="col-sm-2">
           <label class="gg">PPN</label>
@@ -166,14 +182,19 @@ nama_gudang FROM gudang");
 </div>
 
 
+<div class="col-sm-2"><br>
+  <button type="button" id="cari_produk_penjualan" class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class='fa  fa-search'> Cari (F1)</i>  </button> 
+</div>
+
 
 </div>  <!-- END ROW dari kode pelanggan - ppn -->
-
 
 
   </form><!--tag penutup form-->
   
   
+
+<button type="button" id="cari_produk_penjualan" class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class='fa  fa-search'> Cari (F1)</i>  </button> 
 
 
 <!--tampilan modal-->
@@ -352,8 +373,7 @@ nama_gudang FROM gudang");
     </div>
         
     <button type="submit" id="submit_barcode" class="btn btn-primary" style="font-size:15px" ><i class="fa fa-barcode"></i> Submit Barcode</button>
-         
-  <button type="button" id="cari_produk_penjualan" class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class='fa  fa-search'> Cari (F1)</i>  </button>  
+        
     
         
   </form>
@@ -1523,7 +1543,8 @@ alert("Silakan Bayar Piutang");
              $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_faktur+'');
              $("#alert_berhasil").show();
              $("#cetak_tunai").show();
-             $("#cetak_tunai_besar").show(''); 
+             $("#cetak_tunai_besar").show('');
+             $("#cetak_surat_jalan").show('');
              $("#pembayaran_penjualan").val('');
              $("#sisa_pembayaran_penjualan").val('');
              $("#kredit").val('');
@@ -1722,6 +1743,7 @@ alert("Silakan Bayar Piutang");
                  $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_fak+'');
                  
                  $("#alert_berhasil").show();
+                 $("#cetak_surat_jalan").show();
                  $("#pembayaran_penjualan").val('');
                  $("#sisa_pembayaran_penjualan").val('');
                  $("#kredit").val('');
@@ -1940,6 +1962,7 @@ alert("Silakan Bayar Piutang");
                      $("#potongan_persen").val('');
                      $("#tanggal_jt").val('');
                      $("#cetak_piutang").show();
+                     $("#cetak_surat_jalan").show();
                      $("#tax").val('');
                      
                      
@@ -2742,7 +2765,8 @@ function myFunction(event) {
                 var no_faktur = info;
                 $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_faktur+'');
                 $("#alert_berhasil").show(); 
-                $("#transaksi_baru").show();       
+                $("#transaksi_baru").show();           
+                $("#cetak_surat_jalan").show();
                 $("#pembayaran_penjualan").val('');
                 $("#sisa_pembayaran_penjualan").val('');
                 $("#kredit").val('');

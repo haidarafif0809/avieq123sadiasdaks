@@ -161,12 +161,27 @@ include 'sanitasi.php';
     </select>
   </div>
 
-
  
-<!-- Sales Dan Flafon di haden -->
-<input type="hidden" name="sales" id="sales" class="form-control gg" required="">
 
-<!-- /Sales Dan Flafon di haden -->
+
+<div class="form-group col-sm-2">
+  <label>Sales</label>
+    <select name="sales" id="sales" class="form-control" required="">
+      <?php 
+      //untuk menampilkan semua data pada tabel pelanggan dalam DB
+      $query_sales = $db->query("SELECT nama FROM user WHERE status_sales = 'Iya'");
+
+      while($data_sales = mysqli_fetch_array($query_sales)){
+        if($sales == $data_sales['nama']){
+          echo "<option selected value='".$sales."'>".$sales ."</option>";
+        }
+        else{
+          echo "<option value='".$data_sales['nama'] ."'>".$data_sales['nama'] ."</option>";
+        }
+      }
+      ?>
+    </select>
+</div>
 
 
 <div class="form-group col-sm-2">
@@ -187,10 +202,6 @@ include 'sanitasi.php';
 
       <input type="hidden" name="nomor_faktur_penjualan" id="nomor_faktur_penjualan"  value="<?php echo $nomor_faktur; ?>" class="form-control tanggal" >
 
-<div class="form-group col-sm-2"><br>
-    <button type="button" id="cari_produk_penjualan" class="btn btn-info" data-toggle="modal" data-target="#myModal"> <i class='fa  fa-search'> </i> Cari (F1)</button>
-</div>
-
 
 </div>
 
@@ -199,8 +210,8 @@ include 'sanitasi.php';
 
 
 <!--tampilan modal-->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+<div id="myModal" class="modal" role="dialog">
+  <div class="modal-dialog">
 
     <!-- isi modal-->
     <div class="modal-content">
@@ -211,7 +222,8 @@ include 'sanitasi.php';
       </div>
       <div class="modal-body">
 
-      <div class="table-resposive">
+      <div class="table-responsive">
+      <center>
 <span class="modal_baru">
       <!-- membuat agar ada garis pada tabel, disetiap kolom-->
       <table id="tabel_cari" class="table table-bordered table-sm">
@@ -230,6 +242,7 @@ include 'sanitasi.php';
           </thead> <!-- tag penutup tabel -->
         </table> <!-- tag penutup table-->
   </span>
+  </center>
 </div>
 </div> <!-- tag penutup modal-body-->
       <div class="modal-footer">
@@ -357,6 +370,10 @@ include 'sanitasi.php';
 <!-- membuat form prosestbspenjual -->
 <form class="form" action="proses_tambah_edit_penjualan.php" role="form" id="formtambahproduk">
 <br>
+
+<div class="form-group">
+    <button type="button" id="cari_produk_penjualan" class="btn btn-info" data-toggle="modal" data-target="#myModal"> <i class='fa  fa-search'> </i> Cari (F1)</button>
+</div>
 
 
 <div class="row">
@@ -1025,6 +1042,24 @@ console.log(ber_stok);
     var subtotal_penjualan = parseInt(total,10) + parseInt(subtotal,10);
     total =  subtotal_penjualan;
 
+    var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+    if(pembayaran == ''){
+        pembayaran = 0;
+    }
+    var sisa = pembayaran - subtotal_penjualan;
+    var sisa_kredit = subtotal_penjualan - pembayaran;
+        
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      }  
+
     $("#total2").val(tandaPemisahTitik(subtotal_penjualan));
 
 
@@ -1071,7 +1106,7 @@ console.log(ber_stok);
 
             
              } // end diskon bertingkat
-     
+
 
   if (jumlah_barang == ''){
   alert("Jumlah Barang Harus Diisi");
@@ -1911,12 +1946,32 @@ $(document).on('click','.btn-hapus-tbs',function(e){
             
         }//end diskon bertingkat
 
+        var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+        if(pembayaran == ''){
+        pembayaran = 0;
+        }
+        var sisa = pembayaran - total;
+        var sisa_kredit = total - pembayaran;
+
+
     var konfirmasi_hapus = confirm("Apakah Anda yakin ingin Menghapus "+nama_barang);
 
       if (konfirmasi_hapus == true) {
       $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(potongan_nominal)));
       $("#total1").val(tandaPemisahTitik(total_akhir));
       $("#total2").val(tandaPemisahTitik(total));
+
+
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      }
 
     $.post("hapus_edit_tbs_penjualan.php",{id:id,kode_barang:kode_barang},function(data){
     if (data == 'sukses') {
@@ -2134,6 +2189,25 @@ $(function() {
                                   // subtotal penjualan baru
                            subtotal_penjualan= subtotal_penjualan - subtotal_lama + subtotal;
                            var total = subtotal_penjualan;
+
+                           var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+                            if(pembayaran == ''){
+                                pembayaran = 0;
+                            }
+                            var sisa = pembayaran - subtotal_penjualan;
+                            var sisa_kredit = subtotal_penjualan - pembayaran;
+                                
+                              if (sisa < 0  ){
+                                $("#kredit").val(sisa_kredit);
+                                $("#sisa_pembayaran_penjualan").val('0');
+                                $("#tanggal_jt").attr("disabled", false);
+                              }
+                              else{
+                                $("#sisa_pembayaran_penjualan").val(sisa);
+                                $("#kredit").val('0');
+                                $("#tanggal_jt").attr("disabled", true);
+                              }  
+
                           //perhitungan diskon bertingkat 
                    if (status_bertingkat > 0) {
                               var diskon_bertingkat = potongan_persen.split("+");
