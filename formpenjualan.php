@@ -181,6 +181,12 @@ nama_gudang FROM gudang");
           </select>
 </div>
 
+
+<div class="col-sm-2"><br>
+  <button type="button" id="cari_produk_penjualan" class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class='fa  fa-search'> Cari (F1)</i>  </button> 
+</div>
+
+
 </div>  <!-- END ROW dari kode pelanggan - ppn -->
 
 
@@ -367,8 +373,7 @@ nama_gudang FROM gudang");
     </div>
         
     <button type="submit" id="submit_barcode" class="btn btn-primary" style="font-size:15px" ><i class="fa fa-barcode"></i> Submit Barcode</button>
-         
-  <button type="button" id="cari_produk_penjualan" class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class='fa  fa-search'> Cari (F1)</i>  </button>  
+        
     
         
   </form>
@@ -1538,7 +1543,8 @@ alert("Silakan Bayar Piutang");
              $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_faktur+'');
              $("#alert_berhasil").show();
              $("#cetak_tunai").show();
-             $("#cetak_tunai_besar").show(''); 
+             $("#cetak_tunai_besar").show('');
+             $("#cetak_surat_jalan").show('');
              $("#pembayaran_penjualan").val('');
              $("#sisa_pembayaran_penjualan").val('');
              $("#kredit").val('');
@@ -1737,6 +1743,7 @@ alert("Silakan Bayar Piutang");
                  $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_fak+'');
                  
                  $("#alert_berhasil").show();
+                 $("#cetak_surat_jalan").show();
                  $("#pembayaran_penjualan").val('');
                  $("#sisa_pembayaran_penjualan").val('');
                  $("#kredit").val('');
@@ -1955,6 +1962,7 @@ alert("Silakan Bayar Piutang");
                      $("#potongan_persen").val('');
                      $("#tanggal_jt").val('');
                      $("#cetak_piutang").show();
+                     $("#cetak_surat_jalan").show();
                      $("#tax").val('');
                      
                      
@@ -2757,7 +2765,8 @@ function myFunction(event) {
                 var no_faktur = info;
                 $("#cetak_surat_jalan").attr('href', 'cetak_penjualan_surat_jalan.php?no_faktur='+no_faktur+'');
                 $("#alert_berhasil").show(); 
-                $("#transaksi_baru").show();       
+                $("#transaksi_baru").show();           
+                $("#cetak_surat_jalan").show();
                 $("#pembayaran_penjualan").val('');
                 $("#sisa_pembayaran_penjualan").val('');
                 $("#kredit").val('');
