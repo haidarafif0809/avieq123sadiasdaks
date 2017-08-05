@@ -1579,7 +1579,25 @@ else
     var tax_faktur = $("#tax").val();
         if (tax_faktur == "") {
         tax_faktur = 0;
-        }   
+        }
+
+    var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
+    if(pembayaran == ''){
+        pembayaran = 0;
+    }
+    var sisa = pembayaran - subtotal_penjualantotal;
+    var sisa_kredit = total - pembayaran;
+        
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      }     
 
  // perhitungan diskon bertingkat 
    if (status_bertingkat > 0) {
