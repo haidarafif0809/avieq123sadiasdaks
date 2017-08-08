@@ -1,0 +1,5 @@
+Selasa, 08 Agustus 2017.
+Nama : Riko Pernando.
+Penambahan kolom waktu_input di table pembelian.
+Alasan: Karena di aplikasi TOko Avi Makmur terjadi pengulangan no faktur pada tanggal 08 Agustus 2017, karena itu saya tambahkan waktu input untuk menghindari terjadi nya pengulangan no faktur.
+CODE SQL: ALTER TABLE pembelian ADD waktu_input TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER ppn;
