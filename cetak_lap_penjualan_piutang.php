@@ -110,12 +110,12 @@ include 'db.php';
 <table id="tableuser" class="table1">
         <thead>
 
-            <th class="table1" style="width: 5%"> <center> No. </center> </th>
+            <th class="table1" style="width: 4%"> <center> No. </center> </th>
             <th class="table1" style="width: 65%"> <center> Nama Barang </center> </th>
-            <th class="table1" style="width: 5%"> <center> Jumlah </center> </th>
-            <th class="table1" style="width: 20%"> <center> Satuan </center> </th>
-            <th class="table1" style="width: 10%"> <center> Harga Satuan </center> </th>
-            <th class="table1" style="width: 10%"> <center> Harga Jual </center> </th>        
+            <th class="table1" style="width: 7%"> <center> Jumlah </center> </th>
+            <th class="table1" style="width: 7%"> <center> Satuan </center> </th>
+            <th class="table1" style="width: 9%"> <center> Harga Satuan </center> </th>
+            <th class="table1" style="width: 8%"> <center> Harga Jual </center> </th>        
             
         </thead>
 
@@ -152,13 +152,13 @@ include 'db.php';
             echo "<tr>
             <td class='table1' align='center'>".$no_urut."</td>
             <td class='table1'>". $data5['nama_barang'] ."</td>
-            <td class='table1' align='right'>". rp($jumlah_barang) ."</td>";
+            <td class='table1' align='center'>". rp($jumlah_barang) ."</td>";
 
             if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {                
-            echo "<td class='table1' align='right'>". $data5['satuan'] ." ( ".$konver." ".$cek011['nama']." ) </td>";
+            echo "<td align='center' class='table1' align='right'>". $data5['satuan'] ." ( ".$konver." ".$cek011['nama']." ) </td>";
             }
             else{
-              echo "<td class='table1' align='right'>". $data5['satuan'] ."</td>";
+              echo "<td align='center' class='table1' align='right'>". $data5['satuan'] ."</td>";
             }
             echo "<td class='table1' align='right'>". rp($data5['harga']) ."</td>
             <td class='table1' align='right'>". rp($data5['subtotal']) ."</td>
@@ -228,7 +228,7 @@ include 'db.php';
             <td class='table1'></td>
             <td class='table1'>Jumlah Potongan Harga</td>
             <td class='table1' align='right'></td>
-            <td class='table1'>Disc</td>
+            <td class='table1' align='center'>Disc</td>
             <td class='table1' align='right'><?php echo persen($potongan_persen); ?></td>
             <td class='table1' align='right'><?php echo rp($data0['potongan']); ?></td>
         </tr>
@@ -257,12 +257,14 @@ include 'db.php';
 
 
    <div class="col-sm-9">
+   <br>
      <font class="satu">
      <?php echo $data_footer['keterangan'] ?>
      </font>
    </div>
 
-   <div class="col-sm-3">    
+   <div class="col-sm-3">   
+   <br> 
       <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
   </div>
 
