@@ -1863,6 +1863,9 @@ alert("Silakan Bayar Piutang");
         var tax = $("#tax_rp").val();
         var cara_bayar = $("#carabayar1").val();
         var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah( $("#pembayaran_penjualan").val() ))));
+        if (pembayaran == '') {
+          pembayaran = 0;
+        }
         var total_hpp = $("#total_hpp").val();
         var kode_gudang = $("#kode_gudang").val();
         var sales = $("#sales").val();
@@ -2041,8 +2044,7 @@ alert("Silakan Bayar Piutang");
   }
 
   else{
-    alert("Maaf Subtotal Penjualan Tidak Sesuai, Silakan Tunggu Sebentar!");       
-        window.location.href="formpenjualan.php";
+  
   
     }
 

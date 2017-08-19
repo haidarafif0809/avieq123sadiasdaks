@@ -157,7 +157,7 @@ echo $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
 
 
     $sisa = angkadoang($_POST['sisa']);
-    $sisa_kredit = angkadoang($_POST['kredit']);
+    $sisa_kredit = angkadoang($_POST['sisa_kredit']);
 
 $select_setting_akun = $db->query("SELECT * FROM setting_akun");
 $ambil_setting = mysqli_fetch_array($select_setting_akun);
@@ -306,7 +306,7 @@ if ($potongan != "" || $potongan != 0 ) {
               $tax = angkadoang($_POST['tax']);
               $tanggal_jt = angkadoang($_POST['tanggal_jt']);
               $sisa_pembayaran = angkadoang($_POST['sisa_pembayaran']);
-              $sisa_kredit = angkadoang($_POST['kredit']);
+              $sisa_kredit = angkadoang($_POST['sisa_kredit']);
               $cara_bayar = stringdoang($_POST['cara_bayar']);
               $pembayaran = angkadoang($_POST['pembayaran']);
               $sales = stringdoang($_POST['sales']);
