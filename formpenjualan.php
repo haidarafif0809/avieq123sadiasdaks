@@ -101,9 +101,7 @@ nama_pelanggan FROM pelanggan");
           <?php 
           
       
-          $query_gudang = $db->query("SELECT default_sett,
-kode_gudang,
-nama_gudang FROM gudang");
+          $query_gudang = $db->query("SELECT default_sett,kode_gudang,nama_gudang FROM gudang");
           
 
           while($data_gudang = mysqli_fetch_array($query_gudang))
@@ -1465,6 +1463,9 @@ $("#kode_barang").focus();
         var sisa = pembayaran - total;
         
         var sisa_kredit = total - pembayaran;
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
 
      $("#pembayaran_penjualan").val('');
@@ -1668,6 +1669,9 @@ alert("Silakan Bayar Piutang");
         var sisa = pembayaran - total;
         
         var sisa_kredit = total - pembayaran;
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
 
      $("#pembayaran_penjualan").val('');
@@ -1877,7 +1881,9 @@ alert("Silakan Bayar Piutang");
        var sisa =  pembayaran - total; 
 
        var sisa_kredit = total - pembayaran;
-
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
       if (sisa_pembayaran == "" )
       {
