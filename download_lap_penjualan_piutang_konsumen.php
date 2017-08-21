@@ -177,6 +177,8 @@ $total_tunai = $data_sum['tunai_penjualan'];
 
 
 $tot_bayar = $data_detail_pembayaran_piutang['total_bayar'] + $total_tunai;
+$sisa_kredit = $data_penjualan['nilai_kredit'] - $tot_bayar;
+
 // MENCARI TOTAL PEMBAYARAN PIUTANG  
 
 
@@ -194,17 +196,25 @@ $tot_bayar = $data_detail_pembayaran_piutang['total_bayar'] + $total_tunai;
                   }
                   else
                   {
-                    echo 0;
+                      echo  "<td>0</td>";
                   }
-                  echo "<td align='right'>". rp($data_penjualan['kredit']) ."</td>
-                  </tr>";
+                  if ($sisa_kredit < 0 ) {
+                     # code...
+                      echo  "<td>0</td>";
+                  }
+                  else {
+                      echo "<td align='right'> ".rp($sisa_kredit)."</td>";
+                    }
+
+                 echo "</tr>";
 
 
                   }
 
 
 
-    echo "<td><p style='color:red'> TOTAL </p></td>
+    echo "<tr>
+    <td><p style='color:red'> TOTAL </p></td>
       <td><p style='color:red'> - </p></td>
       <td><p style='color:red'> - </p></td>
       <td><p style='color:red'> - </p></td>
@@ -212,7 +222,8 @@ $tot_bayar = $data_detail_pembayaran_piutang['total_bayar'] + $total_tunai;
       <td><p style='color:red' align='right'> - </p></td>
       <td><p style='color:red' align='right'> ".rp($total_akhir)." </p></td>
       <td><p style='color:red' align='right'> ".rp($total_bayar)." </p></td>
-      <td><p style='color:red' align='right'> ".rp($total_kredit)." </p></td>";  
+      <td><p style='color:red' align='right'> ".rp($total_kredit)." </p></td>
+      </tr>";  
 
 //Untuk Memutuskan Koneksi Ke Database
 

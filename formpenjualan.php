@@ -101,9 +101,7 @@ nama_pelanggan FROM pelanggan");
           <?php 
           
       
-          $query_gudang = $db->query("SELECT default_sett,
-kode_gudang,
-nama_gudang FROM gudang");
+          $query_gudang = $db->query("SELECT default_sett,kode_gudang,nama_gudang FROM gudang");
           
 
           while($data_gudang = mysqli_fetch_array($query_gudang))
@@ -1465,6 +1463,9 @@ $("#kode_barang").focus();
         var sisa = pembayaran - total;
         
         var sisa_kredit = total - pembayaran;
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
 
      $("#pembayaran_penjualan").val('');
@@ -1668,6 +1669,9 @@ alert("Silakan Bayar Piutang");
         var sisa = pembayaran - total;
         
         var sisa_kredit = total - pembayaran;
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
 
      $("#pembayaran_penjualan").val('');
@@ -1863,6 +1867,9 @@ alert("Silakan Bayar Piutang");
         var tax = $("#tax_rp").val();
         var cara_bayar = $("#carabayar1").val();
         var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah( $("#pembayaran_penjualan").val() ))));
+        if (pembayaran == '') {
+          pembayaran = 0;
+        }
         var total_hpp = $("#total_hpp").val();
         var kode_gudang = $("#kode_gudang").val();
         var sales = $("#sales").val();
@@ -1874,7 +1881,9 @@ alert("Silakan Bayar Piutang");
        var sisa =  pembayaran - total; 
 
        var sisa_kredit = total - pembayaran;
-
+        if (sisa_kredit < 0) {
+          sisa_kredit = 0;
+        }
 
       if (sisa_pembayaran == "" )
       {
@@ -2041,8 +2050,7 @@ alert("Silakan Bayar Piutang");
   }
 
   else{
-    alert("Maaf Subtotal Penjualan Tidak Sesuai, Silakan Tunggu Sebentar!");       
-        window.location.href="formpenjualan.php";
+  
   
     }
 
