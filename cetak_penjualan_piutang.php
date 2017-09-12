@@ -258,7 +258,7 @@ include 'db.php';
 
     <div class="col-sm-3">
      <br> 
-      <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
+      <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
    </div>
 
 
@@ -267,7 +267,7 @@ include 'db.php';
 
    <div class="col-sm-3">   
      <br> 
-      <font class="satu"><b> <center>Penerima,</center><br> <br><br><br><br><br> <font class="satu"> <center>(.........)</center></font></b></font>
+      <font class="satu"><b> <center></center><br> <br><br><br> <font class="satu"> <center>(Penerima)</center></font></b></font>
   </div>
 
   <div class="row">
