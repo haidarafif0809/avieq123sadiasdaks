@@ -244,16 +244,30 @@ include 'db.php';
     </table>
 
 
-   <div class="col-sm-9">
+ 
+   <div class="col-sm-3">
+     <br> 
+      <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
+   </div>
+
+
+   <div class="col-sm-3"></div>
+   <div class="col-sm-3"></div>
+
+   <div class="col-sm-3">   
+     <br> 
+      <font class="satu"><b> <center></center><br> <br><br><br> <font class="satu"> <center>(Penerima)</center></font></b></font>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      
+   <br>
      <font class="satu">
      <?php echo $data_footer['keterangan'] ?>
      </font>
-   </div>
-
-   <div class="col-sm-3">    
-      <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
+    </div>
   </div>
-
 </div> <!--/container-->
 
 
