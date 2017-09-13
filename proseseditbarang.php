@@ -2,8 +2,10 @@
 	// memasukan file db.php
     include 'sanitasi.php';
     include 'db.php';
+     include 'cache.class.php'; 
+
     // mengrim data dengan menggunakan metode POST
-    $id = stringdoang($_POST['id']);
+    $id = angkadoang($_POST['id']);
 
 
 
@@ -15,6 +17,7 @@
            
          
            $nama_barang = stringdoang($_POST['nama_barang']);
+           $kode_barang = stringdoang($_POST['kode_barang']);
            $harga_beli = angkadoang($_POST['harga_beli']);
            $harga_jual = angkadoang($_POST['harga_jual']);
            $harga_jual_2 = angkadoang($_POST['harga_jual_2']);
@@ -41,7 +44,28 @@ else
    header('location:barang.php?kategori=semua&tipe=barang');
 }
 
-
+  
+    $c = new Cache();  
+    $c->setCache('produk');  
+  
+    $c->store($kode_barang, array(      
+      'kode_barang' => $kode_barang,
+      'nama_barang' => $nama_barang,  
+      'harga_beli' => $harga_beli,  
+      'harga_jual' => $harga_jual,  
+      'harga_jual2' => $harga_jual_2,  
+      'harga_jual3' => $harga_jual_3,     
+      'kategori' => $kategori,  
+      'suplier' => $suplier,  
+      'limit_stok' => $limit_stok,  
+      'over_stok' => $over_stok,  
+      'berkaitan_dgn_stok' => $tipe,  
+      'status' => $status,
+      'satuan' => $satuan,  
+      'id' => $id ,  
+  
+  
+    ));  
         
         
        

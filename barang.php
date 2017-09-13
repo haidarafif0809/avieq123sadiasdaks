@@ -151,20 +151,6 @@ echo '<br><button type="button" class="btn btn-info" data-toggle="modal" data-ta
                             </div>
 
 
-                            <div class="form-group">
-                            <label> Tipe Produk </label>
-                            <br>
-                            <select type="text" id="tipe_produk" name="tipe" class="form-control" required="">
-                            <option value=""> -- SILAHKAN PILIH -- </option>
-                            <option value="Barang"> Barang </option>
-                            <option value="Jasa"> Jasa </option>
-                            <option value="Alat"> Alat </option>
-                            <option value="BHP"> BHP </option>
-                            <option value="Obat Obatan"> Obat-obatan </option>
-                            </select>
-                            </div>
-
-
 
                                     <div class="form-group">
                                     <label> Kategori Produk </label>
