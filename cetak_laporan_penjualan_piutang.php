@@ -7,8 +7,8 @@ include 'db.php';
 $dari_tanggal = stringdoang($_GET['dari_tanggal']);
 $sampai_tanggal = stringdoang($_GET['sampai_tanggal']);
 
-    $query_perusahaan = $db->query("SELECT foto,nama_perusahaan,alamat_perusahaan,no_telp FROM perusahaan ");
-    $data_perusahaan = mysqli_fetch_array($query1);
+    $query_perusahaan = $db->query("SELECT foto, nama_perusahaan,alamat_perusahaan,no_telp FROM perusahaan ");
+    $data_perusahaan = mysqli_fetch_array($query_perusahaan);
 
 
 $data_sum_dari_detail_pembayaran = 0;
@@ -42,7 +42,7 @@ $total_bayar = $data_sum_dari_penjualan['tunai_penjualan'] +  $data_sum_dari_det
  <div class="row"><!--row1-->
         <div class="col-sm-2">
         <br><br>
-                <img src='save_picture/<?php echo $data_perusahaan['foto']; ?>' class='img-rounded' alt='Cinque Terre' width='160' height='140`'> 
+                <img src='save_picture/<?php echo $data_perusahaan['foto']; ?>' class='img-rounded' alt='Cinque Terre' width='160' height='140'>
         </div><!--penutup colsm2-->
 
         <div class="col-sm-6">

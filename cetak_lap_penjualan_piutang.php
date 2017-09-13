@@ -47,7 +47,7 @@ include 'db.php';
     
     <div class="row"><!--row1-->
         <div class="col-sm-2">
-            <img src='save_picture/<?php echo $data_perusahaan['foto']; ?>' class='img-rounded' alt='Cinque Terre' width='80' height='80`'> 
+            <img src='save_picture/<?php echo $data_perusahaan['foto']; ?>' class='img-rounded' alt='Cinque Terre' width='80' height='80'> 
         </div><!--penutup colsm2-->
 
         <div class="col-sm-8">
@@ -258,7 +258,7 @@ include 'db.php';
 
 <div class="col-sm-3">
      <br> 
-      <font class="satu"><b> <center>Hormat Kami,</center> <br><br><br><br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
+      <font class="satu"><b> <center>Hormat Kami,</center> <br><br> <font class="satu"> <center>(<?php echo $data_footer['petugas']; ?>)</center></font></b></font>
    </div>
 
 
@@ -267,7 +267,7 @@ include 'db.php';
 
    <div class="col-sm-3">   
      <br> 
-      <font class="satu"><b> <center>Penerima,</center> <br><br><br><br><br> <font class="satu"> <center>(................)</center></font></b></font>
+      <font class="satu"><b> <center>Penerima,</center> <br><br> <font class="satu"> <center>(................)</center></font></b></font>
   </div>
 
   <div class="row">
