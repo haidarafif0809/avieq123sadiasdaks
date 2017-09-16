@@ -853,6 +853,7 @@ else if (level_harga == "Level 3") {
 
 
   $('#myModal').modal('hide');
+  $('#jumlah_barang').focus();
   });
    
   </script>
@@ -1053,19 +1054,7 @@ $(document).ready(function(){
     if(pembayaran == ''){
         pembayaran = 0;
     }
-    var sisa = pembayaran - subtotal_penjualan;
-    var sisa_kredit = subtotal_penjualan - pembayaran;
-        
-      if (sisa < 0  ){
-        $("#kredit").val(sisa_kredit);
-        $("#sisa_pembayaran_penjualan").val('0');
-        $("#tanggal_jt").attr("disabled", false);
-      }
-      else{
-        $("#sisa_pembayaran_penjualan").val(sisa);
-        $("#kredit").val('0');
-        $("#tanggal_jt").attr("disabled", true);
-      }  
+ 
 
     $("#total2").val(tandaPemisahTitik(subtotal_penjualan));
 
@@ -1113,7 +1102,19 @@ $(document).ready(function(){
 
             
              } // end diskon bertingkat
-
+    var sisa = pembayaran - total_akhir;
+    var sisa_kredit = total_akhir - pembayaran;
+        
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      } 
 
  if (kode_pelanggan == ''){
   alert("Kode Pelanggan Harus Dipilih");
@@ -1595,20 +1596,7 @@ $(document).ready(function(){
       if(pembayaran == ''){
         pembayaran = 0;
       }
-
-    var sisa = pembayaran - total;
-    var sisa_kredit = total - pembayaran;
-        
-      if (sisa < 0  ){
-        $("#kredit").val(sisa_kredit);
-        $("#sisa_pembayaran_penjualan").val('0');
-        $("#tanggal_jt").attr("disabled", false);
-      }
-      else{
-        $("#sisa_pembayaran_penjualan").val(sisa);
-        $("#kredit").val('0');
-        $("#tanggal_jt").attr("disabled", true);
-      }     
+    
 
        // perhitungan diskon bertingkat 
          if (status_bertingkat > 0) {
@@ -1653,6 +1641,21 @@ $(document).ready(function(){
           $("#total1").val(tandaPemisahTitik(parseInt(total_akhir)));
 
         } // end diskon bertingkat
+
+
+    var sisa = pembayaran - total_akhir;
+    var sisa_kredit = total_akhir - pembayaran;
+        
+      if (sisa < 0  ){
+        $("#kredit").val(sisa_kredit);
+        $("#sisa_pembayaran_penjualan").val('0');
+        $("#tanggal_jt").attr("disabled", false);
+      }
+      else{
+        $("#sisa_pembayaran_penjualan").val(sisa);
+        $("#kredit").val('0');
+        $("#tanggal_jt").attr("disabled", true);
+      } 
 
 
         $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(total_potongan_nominal)));
@@ -1980,8 +1983,8 @@ $(document).on('click','.btn-hapus-tbs',function(e){
         if(pembayaran == ''){
         pembayaran = 0;
         }
-        var sisa = pembayaran - total;
-        var sisa_kredit = total - pembayaran;
+        var sisa = pembayaran - total_akhir;
+        var sisa_kredit = total_akhir - pembayaran;
 
 
     var konfirmasi_hapus = confirm("Apakah Anda yakin ingin Menghapus "+nama_barang);
@@ -2224,19 +2227,7 @@ $(function() {
                             if(pembayaran == ''){
                                 pembayaran = 0;
                             }
-                            var sisa = pembayaran - subtotal_penjualan;
-                            var sisa_kredit = subtotal_penjualan - pembayaran;
-                                
-                              if (sisa < 0  ){
-                                $("#kredit").val(sisa_kredit);
-                                $("#sisa_pembayaran_penjualan").val('0');
-                                $("#tanggal_jt").attr("disabled", false);
-                              }
-                              else{
-                                $("#sisa_pembayaran_penjualan").val(sisa);
-                                $("#kredit").val('0');
-                                $("#tanggal_jt").attr("disabled", true);
-                              }  
+                            
 
                           //perhitungan diskon bertingkat 
                    if (status_bertingkat > 0) {
@@ -2277,6 +2268,20 @@ $(function() {
 
                         }  
                     }
+
+                            var sisa = pembayaran - total_akhir;
+                            var sisa_kredit = total_akhir - pembayaran;
+                                
+                              if (sisa < 0  ){
+                                $("#kredit").val(sisa_kredit);
+                                $("#sisa_pembayaran_penjualan").val('0');
+                                $("#tanggal_jt").attr("disabled", false);
+                              }
+                              else{
+                                $("#sisa_pembayaran_penjualan").val(sisa);
+                                $("#kredit").val('0');
+                                $("#tanggal_jt").attr("disabled", true);
+                              }  
                                   if (ber_stok == 'Jasa') {
 
                                      $.post("update_pesanan_barang.php",{jumlah_lama:jumlah_lama,tax:tax,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang,potongan:potongan,harga:harga,jumlah_tax:jumlah_tax,subtotal:subtotal},function(info){
