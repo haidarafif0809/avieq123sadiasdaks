@@ -563,7 +563,7 @@ include 'sanitasi.php';
 
 <div class="col-sm-6">
           <label style="font-size:15px"> Total Akhir</label><br>
-          <b><input type="text" name="total" id="total1" class="form-control" value="<?php echo $total_akhir; ?>" style="height: 50px; width:90%; font-size:25px;" placeholder="Total" readonly="" ></b>
+          <b><input type="text" name="total" id="total1" class="form-control" style="height: 50px; width:90%; font-size:25px;" placeholder="Total" readonly="" ></b>
           </div>
 
           <div class="col-sm-6">
@@ -884,7 +884,7 @@ $.post("cek_level_harga_barang.php",
 <!-- cek stok satuan konversi keyup-->
 <script type="text/javascript">
   $(document).ready(function(){  
-    $("#jumlah_barang").keyup(function(){
+    $("#jumlah_barang").blur(function(){
       
       var jumlah_barang = $("#jumlah_barang").val();
       var satuan_konversi = $("#satuan_konversi").val();
@@ -896,17 +896,16 @@ $.post("cek_level_harga_barang.php",
       var prev = $("#satuan_produk").val();
 
       if (ber_stok != 'Jasa'){
-      $.post("cek_stok_konversi_edit_penjualan.php",
-        {jumlah_barang:jumlah_barang,satuan_konversi:satuan_konversi,kode_barang:kode_barang,id_produk:id_produk,no_faktur:no_faktur},function(data){
+        $.post("cek_stok_konversi_edit_penjualan.php", {jumlah_barang:jumlah_barang,satuan_konversi:satuan_konversi,kode_barang:kode_barang,id_produk:id_produk,no_faktur:no_faktur},function(data){
 
           if (data < 0) {
             alert("Jumlah Melebihi Stok");
             $("#jumlah_barang").val('');
-          $("#satuan_konversi").val(prev);
+            $("#satuan_konversi").val(prev);
           }
 
-      });
-  }//if (ber_stok != 'Jasa'){
+        });
+      }//if (ber_stok != 'Jasa'){
 
     });
   });
@@ -1010,6 +1009,10 @@ $(document).ready(function(){
       potongan = 0;
 
     }
+    
+    if (jumlah_barang == '') {
+      jumlah_barang = 0;
+    }
 
     var tax = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#tax1").val()))));
     var jumlahbarang = $("#jumlahbarang").val();
@@ -1022,7 +1025,6 @@ $(document).ready(function(){
 
    var subtotal = parseInt(jumlah_barang, 10) *  parseInt(harga, 10) - parseInt(potongan, 10);
 
-console.log(ber_stok);
    //end data produk
    // data per faktur 
     var potongan_persen = $("#potongan_persen").val();
@@ -1037,6 +1039,11 @@ console.log(ber_stok);
     if (total == '') 
     {
           total = 0;
+    }
+
+    if (subtotal == '') 
+    {
+          subtotal = 0;
     }
 
     var subtotal_penjualan = parseInt(total,10) + parseInt(subtotal,10);
@@ -1108,11 +1115,17 @@ console.log(ber_stok);
              } // end diskon bertingkat
 
 
-  if (jumlah_barang == ''){
-  alert("Jumlah Barang Harus Diisi");
-  }
-  else if (kode_pelanggan == ''){
+ if (kode_pelanggan == ''){
   alert("Kode Pelanggan Harus Dipilih");
+  }  else if (jumlah_barang == ''){
+  alert("Jumlah Barang Harus Diisi");
+       $("#jumlah_barang").focus();
+}
+  else if (jumlah_barang == 0){
+  alert("Jumlah Barang Tidak Boleh 0");
+       $("#jumlah_barang").focus();
+
+
   }
 
 
@@ -1170,8 +1183,7 @@ console.log(ber_stok);
      });
 
   }
-
-    else if (stok < 0 ){
+   else if (stok < 0 ){
   alert("Jumlah Barang Melebihi Stok");
   }
   
@@ -1561,31 +1573,30 @@ else
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
+$(document).ready(function(){
 
-        var no_faktur = $("#nomor_faktur_penjualan").val();
-        
-        $.post("cek_total_edit_penjualan.php",
-        {
-        no_faktur:no_faktur
-        },
-        function(data){
+  var no_faktur = $("#nomor_faktur_penjualan").val();
 
-        var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah(data))));
-              $("#total2").val(total);
+  $.post("cek_total_edit_penjualan.php", {no_faktur:no_faktur}, function(data){
+
+    var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah(data))));
+
+    $("#total2").val(total);
 
     var potongan_persen = $("#potongan_persen").val();
     var status_bertingkat = potongan_persen.indexOf("+");
     var tax_faktur = $("#tax").val();
-        if (tax_faktur == "") {
+
+      if (tax_faktur == "") {
         tax_faktur = 0;
-        }
+      }
 
     var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_penjualan").val()))));
-    if(pembayaran == ''){
+      if(pembayaran == ''){
         pembayaran = 0;
-    }
-    var sisa = pembayaran - subtotal_penjualantotal;
+      }
+
+    var sisa = pembayaran - total;
     var sisa_kredit = total - pembayaran;
         
       if (sisa < 0  ){
@@ -1599,8 +1610,8 @@ else
         $("#tanggal_jt").attr("disabled", true);
       }     
 
- // perhitungan diskon bertingkat 
-   if (status_bertingkat > 0) {
+       // perhitungan diskon bertingkat 
+         if (status_bertingkat > 0) {
             var diskon_bertingkat = potongan_persen.split("+");
             var potongan_nominal = 0;
             var index;
@@ -1619,7 +1630,7 @@ else
             }
 
             var t_tax = ((parseInt(total_kurang_potongan,10) * parseInt(tax_faktur,10)) / 100);
-             var total_akhir = parseInt(total_kurang_potongan, 10) + parseInt(t_tax,10);
+            var total_akhir = parseInt(total_kurang_potongan, 10) + parseInt(t_tax,10);
 
 
             $("#total1").val(tandaPemisahTitik(parseInt(total_akhir)));
@@ -1629,26 +1640,27 @@ else
           var total_potongan_nominal =  Math.round(((total * potongan_persen) / 100));
           var total_kurang_potongan = total - total_potongan_nominal;
           var t_tax = ((parseInt(total_kurang_potongan,10) * parseInt(tax_faktur,10)) / 100);
-
           var total_akhir = parseInt(total_kurang_potongan, 10) + parseInt(t_tax,10);
-              if (potongan_persen > 100) {
-                alert ("Potongan %, Tidak Boleh Lebih Dari 100%");
-                $("#potongan_persen").val('100');
-              }
-              else {
-  
-                }
 
-             $("#total1").val(tandaPemisahTitik(parseInt(total_akhir)));
+          if (potongan_persen > 100) {
+            alert ("Potongan %, Tidak Boleh Lebih Dari 100%");
+            $("#potongan_persen").val('100');
+          }
+          else {
 
-            
-             } // end diskon bertingkat
-     
-  $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(total_potongan_nominal)));
+          }
+
+          $("#total1").val(tandaPemisahTitik(parseInt(total_akhir)));
+
+        } // end diskon bertingkat
 
 
-        });
-      });
+        $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(total_potongan_nominal)));
+
+
+  });
+
+});
 </script>
  
         <script>
