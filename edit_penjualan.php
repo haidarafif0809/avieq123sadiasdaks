@@ -1009,6 +1009,10 @@ $(document).ready(function(){
       potongan = 0;
 
     }
+    
+    if (jumlah_barang == '') {
+      jumlah_barang = 0;
+    }
 
     var tax = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#tax1").val()))));
     var jumlahbarang = $("#jumlahbarang").val();
@@ -1035,6 +1039,11 @@ $(document).ready(function(){
     if (total == '') 
     {
           total = 0;
+    }
+
+    if (subtotal == '') 
+    {
+          subtotal = 0;
     }
 
     var subtotal_penjualan = parseInt(total,10) + parseInt(subtotal,10);
@@ -1106,11 +1115,17 @@ $(document).ready(function(){
              } // end diskon bertingkat
 
 
-  if (jumlah_barang == ''){
-  alert("Jumlah Barang Harus Diisi");
-  }
-  else if (kode_pelanggan == ''){
+ if (kode_pelanggan == ''){
   alert("Kode Pelanggan Harus Dipilih");
+  }  else if (jumlah_barang == ''){
+  alert("Jumlah Barang Harus Diisi");
+       $("#jumlah_barang").focus();
+}
+  else if (jumlah_barang == 0){
+  alert("Jumlah Barang Tidak Boleh 0");
+       $("#jumlah_barang").focus();
+
+
   }
 
 
