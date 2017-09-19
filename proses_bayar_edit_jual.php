@@ -42,7 +42,6 @@ $waktu = $tanggal." ".$jam_sekarang;
             $kode_gudang = stringdoang($_POST['kode_gudang']);
             
             $tanggal_jt = angkadoang($_POST['tanggal_jt']);
-            $sisa_kredit = angkadoang($_POST['jumlah_kredit_baru']);
             $tanggal = stringdoang($_POST['tanggal']);           
             $user = $_SESSION['user_name'];
  // siapkan "data" query
@@ -52,7 +51,7 @@ $waktu = $tanggal." ".$jam_sekarang;
         $ambil_kode_pelanggan = mysqli_fetch_array($select_kode_pelanggan);
             
             $sisa = angkadoang($_POST['sisa']);
-            $sisa_kredit = angkadoang($_POST['jumlah_kredit_baru']);
+            $sisa_kredit = angkadoang($_POST['kredit']);
 
 
             $delete_detail_penjualan = $db->query("DELETE FROM detail_penjualan WHERE no_faktur = '$nomor_faktur' ");
