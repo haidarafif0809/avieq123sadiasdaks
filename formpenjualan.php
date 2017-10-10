@@ -387,7 +387,21 @@ nama_pelanggan FROM pelanggan");
 
   <div class="col-sm-3">
 
-    <input type="text" style="height:15px" class="form-control" name="kode_barang" autocomplete="off" id="kode_barang" placeholder="Kode Barang" >
+<select style="font-size:15px; height:20px" type="text" name="kode_barang" id="kode_barang" class="form-control chosen" data-placeholder="SILAKAN PILIH...">
+    <option value="">SILAKAN PILIH...</option>
+       <?php
+
+        include 'cache.class.php';
+          $c = new Cache();
+          $c->setCache('produk');
+          $data_c = $c->retrieveAll();
+
+          foreach ($data_c as $key) {
+            echo '<option id="opt-produk-'.$key['kode_barang'].'" value="'.$key['kode_barang'].'" data-kode="'.$key['kode_barang'].'" nama-barang="'.$key['nama_barang'].'" harga="'.$key['harga_jual'].'" harga_jual_2="'.$key['harga_jual2'].'" harga_jual_3="'.$key['harga_jual3'].'" satuan="'.$key['satuan'].'" kategori="'.$key['kategori'].'" status="'.$key['status'].'" suplier="'.$key['suplier'].'" limit_stok="'.$key['limit_stok'].'" ber-stok="'.$key['berkaitan_dgn_stok'].'" id-barang="'.$key['id'].'" > '. $key['kode_barang'].' ( '.$key['nama_barang'].' ) </option>';
+          }
+
+        ?>
+    </select>
 
   </div>
 
@@ -791,7 +805,7 @@ $(document).ready(function(){
           "fnCreatedRow": function( nRow, aData, iDataIndex ) {
 
               $(nRow).attr('class', "pilih");
-              $(nRow).attr('data-kode', aData[0]+" ("+aData[1]+")");
+              $(nRow).attr('data-kode', aData[0]);
               $(nRow).attr('nama-barang', aData[1]);
               $(nRow).attr('harga', aData[2]);
               $(nRow).attr('harga_level_2', aData[3]);
@@ -856,7 +870,11 @@ $(document).ready(function(){
 
 
   document.getElementById("kode_barang").value = $(this).attr('data-kode');
-  document.getElementById("nama_barang").value = $(this).attr('nama-barang');
+  $("#kode_barang").trigger("chosen:updated");
+  $("#kode_barang").trigger("chosen:open");
+
+
+    document.getElementById("nama_barang").value = $(this).attr('nama-barang');
   document.getElementById("limit_stok").value = $(this).attr('limit_stok');
   document.getElementById("satuan_produk").value = $(this).attr('satuan');
   document.getElementById("ber_stok").value = $(this).attr('ber-stok');
@@ -908,7 +926,7 @@ $(document).ready(function(){
   
   var level_harga = $("#level_harga").val();
   var kode_barang = $("#kode_barang").val();
-  var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
+  
   var satuan_konversi = $("#satuan_konversi").val();
   var jumlah_barang = $("#jumlah_barang").val();
   var id_produk = $("#id_produk").val();
@@ -939,7 +957,7 @@ if (kode_barang != '')
       var satuan_konversi = $("#satuan_konversi").val();
       var kode_barang = $("#kode_barang").val();
       var ber_stok = $("#ber_stok").val();
-      var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
+      
       var id_produk = $("#id_produk").val();
       var prev = $("#satuan_produk").val();
       
@@ -969,7 +987,7 @@ if (kode_barang != '')
       var satuan_konversi = $("#satuan_konversi").val();
       var kode_barang = $("#kode_barang").val();
       var ber_stok = $("#ber_stok").val();
-      var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
+      
       var id_produk = $("#id_produk").val();
       var prev = $("#satuan_produk").val();
 
@@ -1007,7 +1025,7 @@ $(document).ready(function(){
       var harga_produk = $("#harga_lama").val();
       var jumlah_barang = $("#jumlah_barang").val();
       var kode_barang = $("#kode_barang").val();
-      var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
+      
 
       
 
@@ -1049,7 +1067,7 @@ $(document).ready(function(){
 
       <script type="text/javascript">
       
-      $(".chosen").chosen({no_results_text: "Maaf, Data Tidak Ada!"});  
+      $(".chosen").chosen({no_results_text: "Maaf, Data Tidak Ada!",search_contains:true});  
       
       </script>
 
@@ -1084,6 +1102,7 @@ $.post("barcode.php",{kode_barang:kode_barang,sales:sales,level_harga:level_harg
         $(".tr-kode-"+kode_barang+"").remove();
         $("#ppn").attr("disabled", true);
         $("#kode_barang").val('');
+      $("#kode_barang").trigger('chosen:updated');
         $("#nama_barang").val('');
         $("#harga_produk").val('');
         $("#harga_baru").val('');
@@ -1151,26 +1170,39 @@ $.post("barcode.php",{kode_barang:kode_barang,sales:sales,level_harga:level_harg
     var no_faktur = $("#nomor_faktur_penjualan").val();
     var kode_pelanggan = $("#kd_pelanggan").val();
     var kode_barang = $("#kode_barang").val();
-    var n = kode_barang.indexOf("(");
-    if (n > 0)
-    {
-    var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
-    }
     var nama_barang = $("#nama_barang").val();
     var jumlah_barang = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#jumlah_barang").val()))));
     var level_harga = $("#level_harga").val();
     var harga = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#harga_produk").val()))));
     var harga_baru = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#harga_baru").val()))));
-    var potongan = $("#potongan1").val();
+    var potongan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#potongan1").val()))));
     if (potongan == '') {
       potongan = 0;
 
+    }
+    else{
+      var pos = potongan.search("%");
+        if (pos > 0){
+          var potongan_persen = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#potongan1").val()))));
+              potongan_persen = potongan_persen.replace("%","");
+              
+              if(potongan_persen > 100){
+                alert("Potongan Tidak Boleh Lebih 100%");
+                $("#potongan1").val(0);
+                $("#potongan1").focus();
+              }
+
+              potongan = (parseInt(jumlah_barang,10) * parseInt(harga,10)) * parseInt(potongan_persen,10) / 100;
+              console.log(jumlah_barang)
+              console.log(harga)
+              console.log(potongan_persen)
+              console.log(potongan)
+        };
     }
     var tax = $("#tax1").val();
     var jumlahbarang = $("#jumlahbarang").val();
     var satuan = $("#satuan_konversi").val();
     var sales = $("#sales").val();
-    var a = $(".tr-kode-"+kode_barang+"").attr("data-kode-barang");    
     var ber_stok = $("#ber_stok").val();
     var ppn = $("#ppn").val();
     var stok = parseInt(jumlahbarang,10) - parseInt(jumlah_barang,10);
@@ -1251,17 +1283,7 @@ $.post("barcode.php",{kode_barang:kode_barang,sales:sales,level_harga:level_harg
 
 
 
-  if (a > 0){
-  alert("Anda Tidak Bisa Menambahkan Barang Yang Sudah Ada, Silakan Edit atau Pilih Barang Yang Lain !");
-  }
-
-  else if (harga_baru == '' ){
-  alert("Harga Baru Tidak Boleh Kosong");
-       $("#harga_baru").focus();
-  }
-
-
-  else if (jumlah_barang == ''){
+  if (jumlah_barang == ''){
   alert("Jumlah Barang Harus Diisi");
        $("#jumlah_barang").focus();
 
@@ -1277,6 +1299,8 @@ $.post("barcode.php",{kode_barang:kode_barang,sales:sales,level_harga:level_harg
 
 
 $("#kode_barang").focus();
+
+
 
    $("#total1").val(tandaPemisahTitik(total_akhir));
     $("#total2").val(tandaPemisahTitik(subtotal_penjualan));
@@ -1312,6 +1336,7 @@ $("#kode_barang").focus();
 
      $("#ppn").attr("disabled", true);
      $("#kode_barang").val('');
+  $("#kode_barang").trigger('chosen:updated');
      $("#nama_barang").val('');
      $("#harga_produk").val('');
      $("#harga_baru").val('');
@@ -1344,6 +1369,7 @@ $("#kode_barang").focus();
 
       $("#ppn").attr("disabled", true);
      $("#kode_barang").val('');
+  $("#kode_barang").trigger('chosen:updated');
      $("#nama_barang").val('');
      $("#harga_produk").val('');
      $("#harga_baru").val('');
@@ -2084,12 +2110,14 @@ alert("Silakan Bayar Piutang");
   $(document).on('click', '.pilih', function (e) {
     var session_id = $("#session_id").val();
     var kode_barang = $("#kode_barang").val();
-    var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
+    
  $.post('cek_kode_barang_tbs_penjualan.php',{kode_barang:kode_barang,session_id:session_id}, function(data){
   
   if(data == 1){
     alert("Anda Tidak Bisa Menambahkan Barang Yang Sudah Ada, Silakan Edit atau Pilih Barang Yang Lain !");
     $("#kode_barang").val('');
+  $("#kode_barang").trigger('chosen:updated');
+  $("#kode_barang").trigger('chosen:open');
     $("#nama_barang").val('');
    }//penutup if
 
@@ -2429,26 +2457,6 @@ $(document).ready(function(){
 </script>
 
 
-
-<script type="text/javascript">
-      
-      $(document).ready(function(){
-
-
-      $("#tax").keyup(function(){
-
-
-      });
-    });
-      
-</script>
-
-
-
-
-
-
-
     <script type="text/javascript">
     $(document).ready(function(){
       
@@ -2554,107 +2562,88 @@ $(document).on('click','.btn-hapus-tbs',function(e){
 
 <!-- AUTOCOMPLETE -->
 
-<script>
-$(function() {
-    $( "#kode_barang" ).autocomplete({
-        source: 'kode_barang_autocomplete.php'
-    });
-});
-</script>
-
-<!-- AUTOCOMPLETE -->
-
-
-
 <script type="text/javascript">
-  
-        $(document).ready(function(){
-        $("#kode_barang").blur(function(){
+// START script untuk pilih kode barang menggunakan chosen
+  $(document).on('change', '#kode_barang', function () {
 
-          var kode_barang = $(this).val();
-          var level_harga = $("#level_harga").val();
-          var session_id = $("#session_id").val();
-          var kode_barang = kode_barang.substr(0, kode_barang.indexOf('('));
-          
-          if (kode_barang != '')
-          {
+    var kode_barang = $(this).val();
+    var nama_barang = $('#opt-produk-'+kode_barang).attr("nama-barang");
+    var harga_jual = $('#opt-produk-'+kode_barang).attr("harga");
+    var harga_jual2 = $('#opt-produk-'+kode_barang).attr('harga_jual_2');
+    var harga_jual3 = $('#opt-produk-'+kode_barang).attr('harga_jual_3');
+    var jumlah_barang = $('#opt-produk-'+kode_barang).attr("jumlah-barang");
+    var satuan = $('#opt-produk-'+kode_barang).attr("satuan");
+    var kategori = $('#opt-produk-'+kode_barang).attr("kategori");
+    var status = $('#opt-produk-'+kode_barang).attr("status");
+    var suplier = $('#opt-produk-'+kode_barang).attr("suplier");
+    var limit_stok = $('#opt-produk-'+kode_barang).attr("limit_stok");
+    var ber_stok = $('#opt-produk-'+kode_barang).attr("ber-stok");
+    var id_barang = $('#opt-produk-'+kode_barang).attr("id-barang");
+    var level_harga = $("#level_harga").val();
+    var session_id = $("#session_id").val();
 
-       
-       
-          $.post("cek_barang_penjualan.php",{kode_barang:kode_barang}, function(data){
-          $("#jumlahbarang").val(data);
-          });
+   if (level_harga == "Level 1") {
 
-          $.post('cek_kode_barang_tbs_penjualan.php',{kode_barang:kode_barang,session_id:session_id}, function(data){
-          
-          if(data == 1){
-          alert("Anda Tidak Bisa Menambahkan Barang Yang Sudah Ada, Silakan Edit atau Pilih Barang Yang Lain !");
+        $('#harga_produk').val(harga_jual);
+        $('#harga_baru').val(harga_jual);
+        $('#harga_lama').val(harga_jual);
+        }
+    else if (level_harga == "Level 2") {
 
-          $("#kode_barang").val('');
-          $("#nama_barang").val('');
-          }//penutup if
-          
-          });////penutup function(data)
+        $('#harga_produk').val(harga_jual2);
+        $('#harga_baru').val(harga_jual2);
+        $('#harga_lama').val(harga_jual2);
+        }
+    else if (level_harga == "Level 3") {
 
-      $.getJSON('lihat_nama_barang.php',{kode_barang:kode_barang}, function(json){
-      
-      if (json == null)
-      {
-        
-        $('#nama_barang').val('');
-        $('#limit_stok').val('');
-        $('#harga_produk').val('');
-        $('#harga_lama').val('');
-        $('#harga_baru').val('');
-        $('#satuan_produk').val('');
-        $('#satuan_konversi').val('');
-        $('#id_produk').val('');
-        $('#ber_stok').val('');
+        $('#harga_produk').val(harga_jual3);
+        $('#harga_baru').val(harga_jual3);
+        $('#harga_lama').val(harga_jual3);
+        }
 
+    $("#kode_barang").val(kode_barang);
+    $("#nama_barang").val(nama_barang);
+    $("#satuan_produk").val(satuan);
+    $("#satuan_konversi").val(satuan);
+    $("#limit_stok").val(limit_stok);
+    $("#ber_stok").val(ber_stok);
+    $("#id_produk").val(id_barang);
+
+if (ber_stok == 'Barang') {
+
+    $.post('ambil_jumlah_produk.php',{kode_barang:kode_barang}, function(data){
+      if (data == "") {
+        data = 0;
       }
+      $("#jumlahbarang").val(data);
+      $('#kolom_cek_harga').val('1');
+    });
 
-      else 
-      {
-        if (level_harga == "Level 1") {
-
-        $('#harga_produk').val(json.harga_jual);
-        $('#harga_baru').val(json.harga_jual);
-        $('#harga_lama').val(json.harga_jual);
-        }
-        else if (level_harga == "Level 2") {
-
-        $('#harga_produk').val(json.harga_jual2);
-        $('#harga_baru').val(json.harga_jual2);
-        $('#harga_lama').val(json.harga_jual2);
-        }
-        else if (level_harga == "Level 3") {
-
-        $('#harga_produk').val(json.harga_jual3);
-        $('#harga_baru').val(json.harga_jual3);
-        $('#harga_lama').val(json.harga_jual3);
-        }
-
-        $('#nama_barang').val(json.nama_barang);
-        $('#limit_stok').val(json.limit_stok);
-        $('#satuan_produk').val(json.satuan);
-        $('#satuan_konversi').val(json.satuan);
-        $('#id_produk').val(json.id);
-        $('#ber_stok').val(json.berkaitan_dgn_stok);
-      }
-                                              
-        });
-        
 }
 
-        });
-        });
 
-      
-      
+ $.post('cek_kode_barang_tbs_penjualan.php',{kode_barang:kode_barang,session_id:session_id}, function(data){
+
+  if(data == 1){
+          alert("Anda Tidak Bisa Menambahkan Barang Yang Sudah Ada, Silakan Edit atau Pilih Barang Yang Lain !");
+
+          $("#kode_barang").chosen("destroy");
+          $("#kode_barang").val('');
+        $("#kode_barang").trigger('chosen:updated');
+          $("#nama_barang").val('');
+          $("#kode_barang").trigger('chosen:open');
+          $(".chosen").chosen({no_results_text: "Maaf, Data Tidak Ada!",search_contains:true});
+   }//penutup if
+
+
+
+  });
+
+
+
+  });
+  // end script untuk pilih kode barang menggunakan chosen
 </script>
-
-
-
 
 <script>
 /* Membuat Tombol Shortcut */
